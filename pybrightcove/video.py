@@ -709,7 +709,7 @@ class Video(object):
 
     def find_related(self, connection=None, page_size=100, page_number=0):
         if self.id:
-            return ItemResultSet('find_related_videos', Video, connection,
+            return ItemResultSet('find_related_videos', type(self), connection,
                 page_size, page_number, None, None, video_id=self.id)
 
     def deactivate(self):
@@ -732,17 +732,17 @@ class Video(object):
             c = APIConnection()
         return c.post('get_upload_status', video_id=video_id)
 
-    @staticmethod
-    def activate(video_id, connection=None):
+    @classmethod
+    def activate(class_, video_id, connection=None):
         c = connection
         if not c:
             c = APIConnection()
         data = c.post('update_video', video={
             'id': video_id, 'itemState': ItemStateEnum.ACTIVE})
-        return Video(data=data)
+        return class_(data=data)
 
-    @staticmethod
-    def find_modified(since, filter_list=[], connection=None, page_size=25,
+    @classmethod
+    def find_modified(class_, since, filter_list=[], connection=None, page_size=25,
         page_number=0, sort_by=SortByType.CREATION_DATE,
         sort_order=SortByOrderType.ASC):
         if not isinstance(since, datetime):
@@ -750,18 +750,18 @@ class Video(object):
             raise PyBrightcoveError(msg)
         filters = None
         fdate = int(since.strftime("%s")) / 60  ## Minutes since UNIX time
-        return ItemResultSet('find_modified_videos', Video, connection,
+        return ItemResultSet('find_modified_videos', class_, connection,
             page_size, page_number, sort_by, sort_order, from_date=fdate,
             filter=filters)
 
-    @staticmethod
-    def find_all(connection=None, page_size=100, page_number=0,
+    @classmethod
+    def find_all(class_,connection=None, page_size=100, page_number=0,
         sort_by=SortByType.CREATION_DATE, sort_order=SortByOrderType.ASC):
-        return ItemResultSet('find_all_videos', Video, connection, page_size,
+        return ItemResultSet('find_all_videos', class_, connection, page_size,
             page_number, sort_by, sort_order)
 
-    @staticmethod
-    def find_by_tags(and_tags=None, or_tags=None, connection=None,
+    @classmethod
+    def find_by_tags(class_, and_tags=None, or_tags=None, connection=None,
         page_size=100, page_number=0, sort_by=SortByType.MODIFIED_DATE,
         sort_order=SortByOrderType.ASC):
         err = None
@@ -781,49 +781,49 @@ class Video(object):
             atags = ','.join([str(t) for t in and_tags])
         if or_tags:
             otags = ','.join([str(t) for t in or_tags])
-        return ItemResultSet('find_videos_by_tags', Video, connection,
+        return ItemResultSet('find_videos_by_tags', class_, connection,
             page_size, page_number, sort_by, sort_order, and_tags=atags,
             or_tags=otags)
 
-    @staticmethod
-    def find_by_text(text, connection=None, page_size=100, page_number=0,
+    @classmethod
+    def find_by_text(class_, text, connection=None, page_size=100, page_number=0,
         sort_by=SortByType.CREATION_DATE, sort_order=SortByOrderType.ASC):
-        return ItemResultSet('find_videos_by_text', Video, connection,
+        return ItemResultSet('find_videos_by_text', class_, connection,
             page_size, page_number, sort_by, sort_order, text=text)
 
-    @staticmethod
-    def find_by_campaign(campaign_id, connection=None, page_size=100,
+    @classmethod
+    def find_by_campaign(class_, campaign_id, connection=None, page_size=100,
         page_number=0, sort_by=SortByType.CREATION_DATE,
         sort_order=SortByOrderType.ASC):
-        return ItemResultSet('find_videos_by_campaign_id', Video, connection,
+        return ItemResultSet('find_videos_by_campaign_id', class_, connection,
             page_size, page_number, sort_by, sort_order,
             campaign_id=campaign_id)
 
-    @staticmethod
-    def find_by_user(user_id, connection=None, page_size=100, page_number=0,
+    @classmethod
+    def find_by_user(class_, user_id, connection=None, page_size=100, page_number=0,
         sort_by=SortByType.CREATION_DATE, sort_order=SortByOrderType.ASC):
-        return ItemResultSet('find_videos_by_user_id', Video, connection,
+        return ItemResultSet('find_videos_by_user_id', class_, connection,
             page_size, page_number, sort_by, sort_order, user_id=user_id)
 
-    @staticmethod
-    def find_by_reference_ids(reference_ids, connection=None, page_size=100,
+    @classmethod
+    def find_by_reference_ids(class_, reference_ids, connection=None, page_size=100,
         page_number=0, sort_by=SortByType.CREATION_DATE,
         sort_order=SortByOrderType.ASC):
         if not isinstance(reference_ids, (list, tuple)):
             err = "Video.find_by_reference_ids expects an iterable argument"
             raise PyBrightcoveError(err)
         ids = ','.join(reference_ids)
-        return ItemResultSet('find_videos_by_reference_ids', Video, connection,
+        return ItemResultSet('find_videos_by_reference_ids', class_, connection,
             page_size, page_number, sort_by, sort_order, reference_ids=ids)
 
-    @staticmethod
-    def find_by_ids(ids, connection=None, page_size=100, page_number=0,
+    @classmethod
+    def find_by_ids(class_, ids, connection=None, page_size=100, page_number=0,
         sort_by=SortByType.CREATION_DATE, sort_order=SortByOrderType.ASC):
         if not isinstance(ids, (list, tuple)):
             err = "Video.find_by_ids expects an iterable argument"
             raise PyBrightcoveError(err)
         ids = ','.join([str(i) for i in ids])
-        return ItemResultSet('find_videos_by_ids', Video, connection,
+        return ItemResultSet('find_videos_by_ids', class_, connection,
             page_size, page_number, sort_by, sort_order, video_ids=ids)
 
     @staticmethod
