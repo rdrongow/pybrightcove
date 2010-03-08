@@ -592,7 +592,7 @@ class Video(object):
     def __setattr__(self, name, value):
         msg = None
         if value:
-            if name == 'name' and len(value) > 60:
+            if name == 'name' and len(value) > 255:
                 # val = value[:60] ## Is this better?
                 msg = "Video.name must be 60 characters or less."
             if name == 'reference_id' and len(value) > 150:
