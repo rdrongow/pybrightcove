@@ -106,13 +106,13 @@ class Playlist(object):
             if name == 'name' and len(value) > 255:
                 # val = value[:60] ## Is this better?
                 msg = "Playlist.name must be 60 characters or less."
-            if name == 'reference_id' and len(value) > 150:
+            elif name == 'reference_id' and len(value) > 150:
                 # val = value[:150]
                 msg = "Playlist.reference_id must be 150 characters or less."
-            if name == 'short_description' and len(value) > 250:
+            elif name == 'short_description' and len(value) > 250:
                 # val = value[:250]
                 msg = "Playlist.short_description must be 250 chars or less."
-            if name == 'type' and value not in VALID_PLAYLIST_TYPES:
+            elif name == 'type' and value not in VALID_PLAYLIST_TYPES:
                 msg = "Playlist.type must be a valid PlaylistTypeEnum"
             if msg:
                 raise PyBrightcoveError(msg)
