@@ -177,32 +177,32 @@ class Playlist(object):
                 cascade=cascade)
             self.id = None
 
-    @staticmethod
-    def find_all(connection=None, page_size=100, page_number=0,
+    @classmethod
+    def find_all(class_, connection=None, page_size=100, page_number=0,
         sort_by=SortByType.CREATION_DATE, sort_order=SortByOrderType.ASC):
-        return ItemResultSet('find_all_playlists', Playlist, connection,
+        return ItemResultSet('find_all_playlists', class_, connection,
             page_size, page_number, sort_by, sort_order)
 
-    @staticmethod
-    def find_by_ids(ids, connection=None, page_size=100, page_number=0,
+    @classmethod
+    def find_by_ids(class_, ids, connection=None, page_size=100, page_number=0,
         sort_by=SortByType.CREATION_DATE, sort_order=SortByOrderType.ASC):
         ids = ','.join([str(i) for i in ids])
-        return ItemResultSet('find_playlists_by_ids', Playlist, connection,
+        return ItemResultSet('find_playlists_by_ids', class_, connection,
             page_size, page_number, sort_by, sort_order, playlist_ids=ids)
 
-    @staticmethod
-    def find_by_reference_ids(reference_ids, connection=None, page_size=100,
+    @classmethod
+    def find_by_reference_ids(class_, reference_ids, connection=None, page_size=100,
         page_number=0, sort_by=SortByType.CREATION_DATE,
         sort_order=SortByOrderType.ASC):
         reference_ids = ','.join([str(i) for i in reference_ids])
-        return ItemResultSet('find_playlists_by_reference_ids', Playlist,
+        return ItemResultSet('find_playlists_by_reference_ids', class_,
             connection, page_size, page_number, sort_by, sort_order,
             reference_ids=reference_ids)
 
-    @staticmethod
-    def find_for_player_id(player_id, connection=None, page_size=100,
+    @classmethod
+    def find_for_player_id(class_, player_id, connection=None, page_size=100,
         page_number=0, sort_by=SortByType.CREATION_DATE,
         sort_order=SortByOrderType.ASC):
-        return ItemResultSet('find_playlists_for_player_id', Playlist,
+        return ItemResultSet('find_playlists_for_player_id', class_,
             connection, page_size, page_number, sort_by, sort_order,
             player_id=player_id)
