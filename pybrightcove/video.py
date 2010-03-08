@@ -595,23 +595,23 @@ class Video(object):
             if name == 'name' and len(value) > 255:
                 # val = value[:60] ## Is this better?
                 msg = "Video.name must be 60 characters or less."
-            if name == 'reference_id' and len(value) > 150:
+            elif name == 'reference_id' and len(value) > 150:
                 # val = value[:150]
                 msg = "Video.reference_id must be 150 characters or less."
-            if name == 'long_description' and len(value) > 5000:
+            elif name == 'long_description' and len(value) > 5000:
                 # val = value[:5000]
                 msg = "Video.long_description must be 5000 characters or less."
-            if name == 'short_description' and len(value) > 250:
+            elif name == 'short_description' and len(value) > 250:
                 # val = value[:250]
                 msg = "Video.short_description must be 250 characters or less."
-            if name == 'item_state' and value not in (ItemStateEnum.ACTIVE,
+            elif name == 'item_state' and value not in (ItemStateEnum.ACTIVE,
                                                       ItemStateEnum.INACTIVE):
                 msg = "Video.item_state must be either ItemStateEnum.ACTIVE or"
                 msg += " ItemStateEnum.INACTIVE"
-            if name == 'video_full_length' and \
+            elif name == 'video_full_length' and \
                     not isinstance(value, Rendition):
                 msg = "Video.video_full_length must be of type Rendition"
-            if name == 'economics' and \
+            elif name == 'economics' and \
                     value not in (EconomicsEnum.FREE,
                                   EconomicsEnum.AD_SUPPORTED):
                 msg = "Video.economics must be either EconomicsEnum.FREE or "
